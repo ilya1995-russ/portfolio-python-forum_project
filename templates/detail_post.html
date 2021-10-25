@@ -1,0 +1,24 @@
+{%extends 'index.html' %}
+{%block content%}
+<h1>Detail Post</h1>
+    <strong> {{ post.title }}</strong>
+    <p> {{ post.description }}</p>
+    <p> {{ post.created_at }}</p>
+    <br>
+    {%if post.image%}
+        <img src="{{ post.image.url }}" alt="Картинка">
+    {%endif%}
+    <br>
+    <a href="{% url 'update_post' post.pk%}" class="btn btn-primary">Edit</a>
+    <a href="{% url 'delete_post' post.pk%}" class="btn btn-danger">Delete</a>
+    <a href="{% url 'add_comment' post.pk%}" class="btn btn-info">Add comments</a>
+    <hr>
+    {% if post.comments.all %}
+    <h4>Comments</h4>
+        {%for comment in  post.comments.all  %}
+                <p>{{comment.description}} - {{comment.created_at}}</p>
+                <hr>
+                {%endfor%}
+    {%endif%}
+{%endblock%}
+
