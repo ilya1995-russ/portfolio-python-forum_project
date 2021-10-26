@@ -1,0 +1,9 @@
+{%extends 'index.html' %}
+{%block content%}
+<h4>You are logged out</h4>
+    <small class="text-nuted">
+       Do u wanna log in?
+        <a href="{% url 'login' %}">Log in</a>
+
+    </small>
+{%endblock%}

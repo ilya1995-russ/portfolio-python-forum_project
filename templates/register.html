@@ -5,7 +5,12 @@
     <form method="POST" >
         {%csrf_token%}
         {{form|crispy}}
-        <button class="btn btn-primary">Register</button>
-    
+        <button class="btn btn-outline-primary">Sign up</button>
     </form>
+    <hr>
+    <small class="text-nuted">
+        Alredy have an account?
+        <a href="{% url 'login' %}">Log in</a>
+
+    </small>
 {%endblock%}

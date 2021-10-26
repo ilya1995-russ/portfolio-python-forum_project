@@ -23,8 +23,10 @@
             <th scope="col">Title</th>
             <th scope="col">Description</th>
             <th scope="col">Created At</th>
+            {% if user.is_authenticated %}
             <th scope="col">Edit</th>
             <th scope="col">Delete</th>
+            {%endif%}
           </tr>
         </thead>
         <tbody>
@@ -34,8 +36,10 @@
                     <td scope="row"><a href="{% url 'detail_post' post.pk%}">{{post.title}}</a></td>
                     <td>{{post.description}}</td>
                     <th >{{post.created_at}}</th>
+                    {% if user.is_authenticated %}
                     <td ><a href="{% url 'update_post' post.pk%}" class="btn btn-primary">Edit</a></td>
                     <td ><a href="{% url 'delete_post' post.pk%}" class="btn btn-danger">Delete</a></td>
+                    {%endif%}
                 </tr>
                 {%endfor%}
               {%else%}
