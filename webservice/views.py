@@ -1,11 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.urls.base import reverse_lazy
 from webservice.models import Post, Comment
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .forms import PostForm, CommentForm, UserRegisterForm
 from django.urls import reverse_lazy
-#from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
+from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 
 
 def index(req):
@@ -25,12 +27,14 @@ def about(req):
     
  #   def test_func(self):
  #       return self.request.user.email.endswith('@example.com')
-class RegisterForm(UserPassesTestMixin,CreateView):
+class RegisterForm(SuccessMessageMixin,CreateView):
     form_class = UserRegisterForm
+    success_message = "%(username)s was created successffuly"
     template_name = 'register.html'
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('login') 
 
 
+        
 
 class PostsView(ListView):
     model = Post
@@ -41,11 +45,29 @@ class DetailPostView(DetailView):
     model = Post
     template_name = "detail_post.html"    
 
-class CreatePostView(PermissionRequiredMixin,CreateView):
-    permission_required = 'webservice.add_post'
-    model = Post
-    template_name = "create_post.html"    
-    form_class = PostForm
+# class CreatePostView(PermissionRequiredMixin,CreateView):
+#     permission_required = 'webservice.add_post'
+#     model = Post
+#     template_name = "create_post.html"    
+#     form_class = PostForm
+
+@login_required
+@permission_required('webservice.add_post')
+def create_post(req):
+    form = PostForm()
+    if req.method == "POST":
+        form = PostForm(req.POST)
+        if form.is_valid():
+            form.save()
+            title = form.cleaned_data.get('title')
+            if title != "POST":
+                messages.error(req, f"Somthing went wrong")
+                return redirect('index')
+            #id = form.cleaned_data.get('pk')
+            messages.success(req, f"Post {title} was created succesfully")
+            return redirect('index')
+    return render(req, 'create_post.html', {'form': form})
+
 
 class UpdatePostView(PermissionRequiredMixin,UpdateView):
     permission_required = 'webservice.change_post'
