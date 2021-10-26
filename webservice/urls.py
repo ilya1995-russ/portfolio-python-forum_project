@@ -1,8 +1,13 @@
 from os import name
-from django.urls import path
+from django.urls import path, include
 from webservice import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
+    #path('', include('django.contrib.auth.urls')),
+    path('register', views.RegisterForm.as_view(), name='register'),
+    path('login/', auth_views.LoginView.as_view(template_name ='login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('', views.PostsView.as_view(), name='index'),
     path('about', views.about, name='about'),
     path('create_post', views.CreatePostView.as_view(), name='create_post'),
