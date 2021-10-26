@@ -2,12 +2,14 @@ from django.shortcuts import redirect, render
 from django.urls.base import reverse_lazy
 from webservice.models import Post, Comment
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .forms import PostForm, CommentForm, UserRegisterForm
+from .forms import PostForm, CommentForm, UserRegisterForm, MessageForm
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
+from django.conf import settings
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.mail import send_mail
 
 
 def index(req):
@@ -20,8 +22,21 @@ def index(req):
 #@user_passes_test(test_func)
 #@login_required
 #@permission_required('user.view_user', raise_exception=True)
+
 def about(req):
-    return render(req, 'about.html')
+    form = MessageForm
+    if req.method == "POST":
+        form = MessageForm(req.POST)
+        if form.is_valid():
+            subject = form.cleaned_data.get('title')
+            body = form.cleaned_data.get('body')
+            try:
+                send_mail(subject, body, settings.EMAIL_HOST_USER, ['toknalirze@vusra.com', 'ulyanoffserghey@yandex.ru', 'smirnovil1995@mail.ru'], fail_silently=False)
+                form.save()
+            except Exception as err:
+                print(str(err))
+            return redirect('index')
+    return render(req, 'about.html', {'form': form})
 
 #class MyView(UserPassesTestMixin, View):
     
