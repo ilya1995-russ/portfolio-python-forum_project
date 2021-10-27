@@ -4,7 +4,7 @@ from api.views import CheckBoxViewsSet
 from api import views
 
 router = routers.DefaultRouter()
-router.register('api', CheckBoxViewsSet)
+router.register('checkbox', CheckBoxViewsSet)
 
 
 urlpatterns = [

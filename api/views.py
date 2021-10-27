@@ -5,7 +5,7 @@ from rest_framework import viewsets
 from api import serializers
 from api.models import CheckBox
 from api.serializers import CheckBoxSerializers, DataSerializer
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.decorators import api_view, authentication_classes, permission_classes, action
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
@@ -17,6 +17,15 @@ from api.utils import Sum
 class CheckBoxViewsSet(viewsets.ModelViewSet):
     queryset = CheckBox.objects.all()
     serializer_class = CheckBoxSerializers
+    @action(detail=False, methods=['get'])
+    def limit (self, req, pk=None):
+        params = req.query_params
+        return Response({"params": params})
+    
+    # @action(detail=False, methods=['post'])
+    # def comon(self, req, pk=None):
+    #     params = req.query_params
+    #     return Response({"params": params})
 
 class CheckBoxList(generics.ListCreateAPIView, mixins.ListModelMixin, mixins.CreateModelMixin):
      # authentication_classes = [authentication.TokenAuthentication]
