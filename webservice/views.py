@@ -91,13 +91,13 @@ def create_post(req):
     return render(req, 'create_post.html', {'form': form})
 
 
-class UpdatePostView(PermissionRequiredMixin,UpdateView):
+class UpdatePostView(LoginRequiredMixin,UpdateView):
     permission_required = 'webservice.change_post'
     model = Post
     template_name = "create_post.html" 
     form_class = PostForm   
 
-class DeletePostView(PermissionRequiredMixin,DeleteView):
+class DeletePostView(LoginRequiredMixin,DeleteView):
     permission_required = 'webservice.delete_post'
     model = Post
     template_name = "delete_post.html"  
