@@ -1,6 +1,7 @@
 
 from pathlib import Path
 import os
+import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # BASE_DIR = Path(__file__).resolve().parent.parent
@@ -13,7 +14,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'django-insecure-h%2j5s$v0gx4+wcc$-uek9k_@76!yx@xi3wy_h+33k*5d9ok73'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -198,3 +199,4 @@ EMAIL_USE_TLS = True
 #     },
     
 # }
+django_heroku.settings(locals())
