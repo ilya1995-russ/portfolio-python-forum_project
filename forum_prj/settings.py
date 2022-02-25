@@ -3,8 +3,8 @@ from pathlib import Path
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -13,7 +13,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-h%2j5s$v0gx4+wcc$-uek9k_@76!yx@xi3wy_h+33k*5d9ok73'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -126,7 +126,7 @@ STATIC_DIRS = [
     os.path.join(BASE_DIR, '/static')
 ]
 
-STATIC_ROOT =os.path.join(BASE_DIR, "root/static")
+# STATIC_ROOT =os.path.join(BASE_DIR, "root/static")
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
@@ -154,47 +154,47 @@ EMAIL_USE_TLS = True
 #     'PAGE_SIZE': 10
 # }
 
-LOGGING = {
-    'version': 1,
-    'dissable_existing_loggers': False,
-    'formatters': {
-        'simple':{
-            'format':'[%(asctime)s] %(levelname)s  %(message)s',
-            'datefmt': '%Y.%m.%d %H:%M:%S',
-            }
-        },
-    'filters': {
-        'require_debug_true':{
-            '()': 'django.utils.log.RequireDebugTrue',
-        },
-        'require_debug_false':{
-             '()': 'django.utils.log.RequireDebugFalse',
-        },
-    },
-    'handlers': {
-        'console_prod':{
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple',
-            'filters': ['require_debug_false'],
-            'level': 'ERROR'
-            },
-        'console_debug':{
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple',
-            'filters': ['require_debug_true'],
-            'level': 'DEBUG'
-            },
-        'file':{
-            'class':'logging.FileHandler',
-            'filename': BASE_DIR / 'logs/forum_api.log',
-            'level': 'INFO',
-            'formatter': 'simple',
-            },
-    },
-    'loggers': {
-        'django':{
-        'handlers':['console_debug', 'file'],
-        },  
-    },
+# LOGGING = {
+#     'version': 1,
+#     'dissable_existing_loggers': False,
+#     'formatters': {
+#         'simple':{
+#             'format':'[%(asctime)s] %(levelname)s  %(message)s',
+#             'datefmt': '%Y.%m.%d %H:%M:%S',
+#             }
+#         },
+#     'filters': {
+#         'require_debug_true':{
+#             '()': 'django.utils.log.RequireDebugTrue',
+#         },
+#         'require_debug_false':{
+#              '()': 'django.utils.log.RequireDebugFalse',
+#         },
+#     },
+#     'handlers': {
+#         'console_prod':{
+#             'class': 'logging.StreamHandler',
+#             'formatter': 'simple',
+#             'filters': ['require_debug_false'],
+#             'level': 'ERROR'
+#             },
+#         'console_debug':{
+#             'class': 'logging.StreamHandler',
+#             'formatter': 'simple',
+#             'filters': ['require_debug_true'],
+#             'level': 'DEBUG'
+#             },
+#         # 'file':{
+#         #     'class':'logging.FileHandler',
+#         #     # 'filename': BASE_DIR / 'logs/forum_api.log',
+#         #     'level': 'INFO',
+#         #     'formatter': 'simple',
+#         #     },
+#     },
+#     'loggers': {
+#         'django':{
+#         'handlers':['console_debug', 'file'],
+#         },  
+#     },
     
-}
+# }
