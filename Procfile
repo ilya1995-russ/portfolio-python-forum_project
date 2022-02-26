@@ -1,1 +1,1 @@
-web: gunicorn forum_project.wsgi 
+web: gunicorn forum_prj.wsgi 
