@@ -1,7 +1,7 @@
 import csv
 #import io
 import datetime
-
+from django.contrib.auth.models import User
 from django.db.models import fields
 from django.http import response
 from django.shortcuts import redirect, render
@@ -50,8 +50,10 @@ def about(req):
  #   def test_func(self):
  #       return self.request.user.email.endswith('@example.com')
 class RegisterForm(SuccessMessageMixin,CreateView):
+    # myuser = User()
     form_class = UserRegisterForm
     success_message = "%(username)s was created successffuly"
+    # myuser.groups.add('')
     template_name = 'register.html'
     success_url = reverse_lazy('login') 
 
@@ -91,19 +93,19 @@ def create_post(req):
     return render(req, 'create_post.html', {'form': form})
 
 
-class UpdatePostView(LoginRequiredMixin,UpdateView):
+class UpdatePostView(PermissionRequiredMixin, UpdateView):
     permission_required = 'webservice.change_post'
     model = Post
     template_name = "create_post.html" 
     form_class = PostForm   
 
-class DeletePostView(LoginRequiredMixin,DeleteView):
+class DeletePostView(PermissionRequiredMixin, DeleteView):
     permission_required = 'webservice.delete_post'
     model = Post
     template_name = "delete_post.html"  
     success_url = reverse_lazy('index')
 
-class AddCommentView(LoginRequiredMixin,CreateView):
+class AddCommentView(LoginRequiredMixin, CreateView):
     model = Comment
     template_name = "add_comment.html"  
     form_class = CommentForm
